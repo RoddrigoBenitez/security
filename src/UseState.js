@@ -17,8 +17,54 @@ function UseState ({ name }) {
     // const [error, setError] = React.useState(false);
     // const [loading, setLoading] = React.useState(false);
 
-    console.log(state.value);
+    // this const's for diferents states
+    const onConfirm = () => {
+        setState({ 
+            ...state,
+            error:false, 
+            loading:false,
+            confirmed: true,
+         });
+    };
 
+    const onError = () =>{
+        setState({ 
+            ...state,
+            error: true,
+            loading:false,
+         });
+    }
+
+    const onWrite = (newEvent) =>{
+        setState({ 
+            ...state,
+            value: newEvent,
+         });
+    }
+
+    const onCheck = () =>{
+        setState({ 
+            ...state,
+            loading:true,
+         })
+    }
+
+    const onDelete = () =>{
+        setState({
+            ...state,
+            deleted: true,
+
+        })
+    }
+
+    const onReset = () =>{
+        setState({
+            ...state,
+            confirmed: false,
+            deleted: false,
+            value: '',
+        })
+    }
 
     React.useEffect(() =>  {
         console.log('empezando el efecto')
@@ -28,30 +74,20 @@ function UseState ({ name }) {
                 console.log('validacion up')
     
                 if(state.value === SECURITY_CODE){
-
-                    setState({ 
-                        ...state,
-                        error:false, 
-                        loading:false,
-                        confirmed: true,
-                     });
-
-                    //setError(true);
+                    
+                    onConfirm();
+                
                 } else {
-                    setState({ 
-                        ...state,
-                        error: true,
-                        loading:false,
-                     });
-                }
-
-    
+                    onError();
+                }    
                 console.log('validacion down')
             }, 2000)
         }
         
         console.log('termonando el efecto')
     }, [state.loading]);
+
+
 
     if(!state.deleted && !state.confirmed){
         return (
@@ -70,20 +106,15 @@ function UseState ({ name }) {
             <input placeholder="Codigo de seguridad" 
             value={state.value}
             onChange={(event) =>{
-                setState({ 
-                    ...state,
-                    value:event.target.value,
-                 });
+                onWrite(event.target.value);
             }}
             />
             
             <button
             onClick={() => {
                 //setError(false);  aca compila
-                setState({ 
-                    ...state,
-                    loading:true,
-                 }); }}
+                onCheck();
+                 }}
             >Comprobar</button>
     
     
@@ -95,22 +126,14 @@ function UseState ({ name }) {
                 <p>Por Favor, reingrese su clave</p>
                 <button
                     onClick={() =>
-                        setState({
-                            ...state,
-                            deleted: true,
-
-                        })
+                        onDelete()
                     }
                 >
                     Eliminar
                 </button>
                 <button
                     onClick={() =>
-                        setState({
-                            ...state,
-                            confirmed: false,
-                            value: '',
-                        })
+                        onReset()
                     }
                 >
                     No Eliminar
@@ -123,12 +146,7 @@ function UseState ({ name }) {
                 <p>Fue elimanado con exito!!</p>
                 <button
                     onClick={() =>
-                        setState({
-                            ...state,
-                            confirmed: false,
-                            deleted: false,
-                            value: '',
-                        })
+                        onReset()
                     }
                 >Recuperar e ir a inicio</button>
             </React.Fragment>
