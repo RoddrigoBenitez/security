@@ -1,5 +1,6 @@
 import { UseState } from './UseState';
 import { ClassState } from './ClassState';
+import { UseReducer } from './useHooks';
 import './App.css';
 
 function App() {
@@ -7,7 +8,8 @@ function App() {
     <div className="App">
       <UseState name="Use State" />
     
-      <ClassState name="Class State"/>
+      <UseReducer name="Use Reducer"/>
+      {/* <ClassState name="Class State"/> */}
     </div>
   );
 }
