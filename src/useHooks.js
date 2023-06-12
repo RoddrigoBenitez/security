@@ -18,27 +18,22 @@ function UseReducer ({ name }) {
 
     const onError = () =>{
         dispatch({ type: actionTypes.error })
-
     }
 
-    const onWrite = (newEvent) =>{
-        dispatch({ type: actionTypes.write })
-
+    const onWrite = ({ target: {value} }) =>{
+        dispatch({ type: actionTypes.write, payload: value })
     }
 
     const onCheck = () =>{
         dispatch({ type: actionTypes.check })
-
     }
 
     const onDelete = () =>{
         dispatch({ type: actionTypes.delete })
-
     }
 
     const onReset = () =>{
-        dispatch({ type: actionTypes.reset
-            })
+        dispatch({ type: actionTypes.reset })
     }
 
 
@@ -81,20 +76,21 @@ function UseReducer ({ name }) {
     
             <input placeholder="Codigo de seguridad" 
             value={state.value}
-            onChange={(event) =>{
-                dispatch(
-                   { type: actionTypes.write, payload: event.target.value  }
-                )
-                //onWrite(event.target.value);
-            }}
+            onChange={onWrite
+                
+            // (event) =>{
+            //     // dispatch(
+            //     //    { type: actionTypes.write, payload: event.target.value  }
+            //     // )
+            //     onWrite(event.target.value);}
+                }
             />
             
             <button
-            onClick={() => {
-                onCheck()
+            onClick={onCheck
                 //setError(false);  aca compila
                 //onCheck();
-                 }}
+                 }
             >Comprobar</button>
     
     
@@ -105,16 +101,12 @@ function UseReducer ({ name }) {
             <React.Fragment>
                 <p>Por Favor, reingrese su clave</p>
                 <button
-                    onClick={() =>
-                        onDelete()
-                    }
+                    onClick={onDelete}
                 >
                     Eliminar
                 </button>
                 <button
-                    onClick={() =>
-                        onReset()
-                    }
+                    onClick={onReset}
                 >
                     No Eliminar
                 </button>
@@ -125,9 +117,7 @@ function UseReducer ({ name }) {
             <React.Fragment>
                 <p>Fue elimanado con exito!!</p>
                 <button
-                    onClick={() =>
-                        onReset()
-                    }
+                    onClick={onReset}
                 >Recuperar e ir a inicio</button>
             </React.Fragment>
         );
